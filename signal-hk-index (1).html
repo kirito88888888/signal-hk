@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal HK — AI · Web3 · Finance</title>
+  <meta name="description" content="A curated community for builders, operators, and capital allocators working at the intersection of AI, Web3, and finance in Hong Kong." />
+  <meta property="og:title" content="Signal HK" />
+  <meta property="og:description" content="Where AI, Web3, and finance converge. Hong Kong." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0f1318;
+      --paper: #cdd8e8;
+      --paper-dim: rgba(205, 216, 232, 0.5);
+      --paper-faint: rgba(205, 216, 232, 0.18);
+      --paper-ghost: rgba(205, 216, 232, 0.08);
+      --paper-rule: rgba(205, 216, 232, 0.12);
+      --accent: #6a9ec4;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--mono);
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    /* Fade in */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .reveal-1 { animation-delay: 0.1s; }
+    .reveal-2 { animation-delay: 0.25s; }
+    .reveal-3 { animation-delay: 0.4s; }
+    .reveal-4 { animation-delay: 0.55s; }
+    .reveal-5 { animation-delay: 0.7s; }
+    .reveal-6 { animation-delay: 0.85s; }
+
+    /* Layout */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 0.5px solid var(--paper-rule);
+      background: rgba(15, 19, 24, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-wordmark {
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--paper);
+      text-decoration: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-tag {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--paper-dim);
+    }
+
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--paper);
+      text-decoration: none;
+      border: 0.5px solid rgba(232, 228, 220, 0.3);
+      padding: 0.55rem 1rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--paper-ghost);
+      border-color: rgba(232, 228, 220, 0.5);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 14rem 0 7rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      border-bottom: 0.5px solid var(--paper-rule);
+    }
+
+    .hero-left {}
+
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--paper-dim);
+      margin-bottom: 2rem;
+    }
+
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(48px, 5.5vw, 72px);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      color: var(--paper);
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-right {
+      padding-bottom: 0.5rem;
+    }
+
+    .hero-body {
+      font-size: 13px;
+      line-height: 1.9;
+      color: var(--paper-dim);
+      max-width: 380px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--paper);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(232, 228, 220, 0.3);
+    }
+
+    /* Section shared */
+    section {
+      padding: 5rem 0;
+      border-bottom: 0.5px solid var(--paper-rule);
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(232, 228, 220, 0.28);
+      margin-bottom: 3rem;
+    }
+
+    /* For section */
+    .for-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .for-item {
+      padding: 2rem 2rem 2rem 0;
+      border-right: 0.5px solid var(--paper-rule);
+    }
+
+    .for-item:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .for-item:not(:first-child) {
+      padding-left: 2rem;
+    }
+
+    .for-num {
+      font-size: 10px;
+      color: rgba(232, 228, 220, 0.2);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.25rem;
+    }
+
+    .for-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--paper);
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .for-desc {
+      font-size: 12px;
+      color: rgba(232, 228, 220, 0.4);
+      line-height: 1.8;
+    }
+
+    /* Thesis section */
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .thesis-left {}
+
+    .thesis-pull {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 300;
+      line-height: 1.25;
+      color: var(--paper);
+      font-style: italic;
+    }
+
+    .thesis-right {}
+
+    .thesis-body {
+      font-size: 13px;
+      line-height: 1.95;
+      color: var(--paper-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .thesis-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .tag {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(232, 228, 220, 0.35);
+      border: 0.5px solid var(--paper-rule);
+      padding: 0.4rem 0.75rem;
+    }
+
+    /* How it works */
+    .how-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .how-item {
+      padding: 0 2rem 0 0;
+      border-right: 0.5px solid var(--paper-rule);
+    }
+
+    .how-item:last-child { border-right: none; padding-right: 0; }
+    .how-item:not(:first-child) { padding-left: 2rem; }
+
+    .how-num {
+      font-size: 10px;
+      color: rgba(232, 228, 220, 0.2);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .how-title {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--paper);
+      margin-bottom: 0.75rem;
+    }
+
+    .how-desc {
+      font-size: 12px;
+      color: rgba(232, 228, 220, 0.38);
+      line-height: 1.8;
+    }
+
+    /* Join section */
+    .join-section {
+      padding: 6rem 0;
+      border-bottom: none;
+    }
+
+    .join-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .join-left {}
+
+    .join-headline {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+    }
+
+    .join-headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .join-body {
+      font-size: 13px;
+      color: var(--paper-dim);
+      line-height: 1.85;
+      max-width: 380px;
+    }
+
+    .join-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .join-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--paper);
+      border: none;
+      padding: 1rem 1.75rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .join-cta:hover {
+      background: var(--accent);
+    }
+
+    .join-cta-arrow {
+      font-size: 14px;
+    }
+
+    .join-note {
+      font-size: 11px;
+      color: rgba(232, 228, 220, 0.22);
+      letter-spacing: 0.06em;
+    }
+
+    .join-note span {
+      margin: 0 8px;
+      opacity: 0.4;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 0.5px solid var(--paper-rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-l {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(232, 228, 220, 0.18);
+    }
+
+    .footer-r {
+      font-size: 10px;
+      color: rgba(232, 228, 220, 0.15);
+      letter-spacing: 0.08em;
+    }
+
+    /* Horizontal rule decoration */
+    .rule {
+      width: 32px;
+      height: 0.5px;
+      background: var(--paper-faint);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-right { gap: 1rem; }
+      .nav-tag { display: none; }
+      .container { padding: 0 1.5rem; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 10rem 0 4rem;
+        gap: 2.5rem;
+      }
+
+      .hero-body { max-width: 100%; }
+      .hero-stats { gap: 1.5rem; }
+
+      .for-grid { grid-template-columns: 1fr; gap: 0; }
+      .for-item {
+        border-right: none;
+        border-bottom: 0.5px solid var(--paper-rule);
+        padding: 1.75rem 0;
+      }
+      .for-item:last-child { border-bottom: none; }
+      .for-item:not(:first-child) { padding-left: 0; }
+
+      .thesis-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+      .how-list { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .how-item { border-right: none; padding: 0; }
+      .how-item:not(:first-child) { padding-left: 0; }
+
+      .join-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      footer {
+        padding: 1.5rem;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-wordmark">Signal HK</a>
+    <div class="nav-right">
+      <span class="nav-tag">Hong Kong &mdash; Invite only</span>
+
+      <a href="#join" class="nav-cta">Join &rarr;</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-left">
+          <h1 class="hero-headline reveal reveal-1">
+            Where AI, Web3<br>and finance<br><em>converge.</em>
+          </h1>
+        </div>
+        <div class="hero-right reveal reveal-2">
+          <p class="hero-body">
+            A curated community for builders, operators, and capital allocators working at the intersection of these three domains in Hong Kong. Small by design. IRL by default.
+          </p>
+          <div class="hero-stats">
+            <div>
+              <span class="stat-num">HK</span>
+              <span class="stat-label">Based</span>
+            </div>
+            <div>
+              <span class="stat-num">IRL</span>
+              <span class="stat-label">Monthly events</span>
+            </div>
+            <div>
+              <span class="stat-num">Curated</span>
+              <span class="stat-label">Entry</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Who it's for -->
+      <section>
+        <p class="section-label reveal reveal-1">Who this is for</p>
+        <div class="for-grid">
+          <div class="for-item reveal reveal-2">
+            <p class="for-num">01</p>
+            <div class="rule"></div>
+            <h3 class="for-title">AI builders</h3>
+            <p class="for-desc">People shipping with AI — agents, automations, products — and looking for peers in the same city who understand what they built and why it matters.</p>
+          </div>
+          <div class="for-item reveal reveal-3">
+            <p class="for-num">02</p>
+            <div class="rule"></div>
+            <h3 class="for-title">Web3 operators</h3>
+            <p class="for-desc">Founders and operators building in crypto who are integrating AI into their stack, or who see where the convergence plays are before they become obvious.</p>
+          </div>
+          <div class="for-item reveal reveal-4">
+            <p class="for-num">03</p>
+            <div class="rule"></div>
+            <h3 class="for-title">Finance practitioners</h3>
+            <p class="for-desc">Traders, allocators, and analysts using AI to sharpen their edge — or exploring DeFi and tokenized assets seriously, not just as a thesis.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Thesis -->
+      <section>
+        <p class="section-label reveal reveal-1">The thesis</p>
+        <div class="thesis-grid">
+          <div class="thesis-left reveal reveal-2">
+            <p class="thesis-pull">"AI, Web3, and finance aren't three separate industries anymore."</p>
+          </div>
+          <div class="thesis-right reveal reveal-3">
+            <p class="thesis-body">
+              Hong Kong sits at the exact crossroads of three forces reshaping the global economy. No other city has the same density of crypto-native companies, a regulator actively building virtual asset frameworks, a deep bench of finance professionals, and a population that's tech-forward and capital-savvy.
+            </p>
+            <p class="thesis-body">
+              Yet the people working across these domains rarely overlap. Signal HK exists to close that gap — a tight group of operators in the same city, same timezone, who meet in person and share what they're actually building.
+            </p>
+            <div class="thesis-tags">
+              <span class="tag">AI &times; Finance</span>
+              <span class="tag">AI &times; Web3</span>
+              <span class="tag">Web3 &times; Finance</span>
+              <span class="tag">Hong Kong</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section>
+        <p class="section-label reveal reveal-1">How it works</p>
+        <div class="how-list">
+          <div class="how-item reveal reveal-2">
+            <span class="how-num">01</span>
+            <h4 class="how-title">WhatsApp group</h4>
+            <p class="how-desc">The daily pulse. Members share what they're building, ask questions, drop tools and launches that actually matter. Curated signal, not a firehose.</p>
+          </div>
+          <div class="how-item reveal reveal-3">
+            <span class="how-num">02</span>
+            <h4 class="how-title">Monthly IRL</h4>
+            <p class="how-desc">A recurring in-person gathering in Central. Not a panel event. Rotating formats — demo nights, co-build sessions, market salons.</p>
+          </div>
+          <div class="how-item reveal reveal-4">
+            <span class="how-num">03</span>
+            <h4 class="how-title">Quarterly spotlight</h4>
+            <p class="how-desc">One larger curated evening per quarter bringing in new faces. The WhatsApp group is the natural next step for everyone who attends.</p>
+          </div>
+          <div class="how-item reveal reveal-5">
+            <span class="how-num">04</span>
+            <h4 class="how-title">Curated entry</h4>
+            <p class="how-desc">Not open to everyone. Members are people who are making things, trading things, or building things — not passive observers.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Join -->
+    <div class="container">
+      <section class="join-section" id="join">
+        <div class="join-inner">
+          <div class="join-left reveal reveal-1">
+            <h2 class="join-headline">The room is <em>forming.</em></h2>
+            <p class="join-body">
+              We're building a tight group of Hong Kong-based operators, builders, and allocators. If that's you — and you're actively making things at this intersection — request access below.
+            </p>
+          </div>
+          <div class="join-right reveal reveal-2">
+            <a href="https://chat.whatsapp.com/LJVnxBTHaN8412M5q7ugXA?mode=gi_t" class="join-cta" target="_blank" rel="noopener">
+              Request access <span class="join-cta-arrow">&rarr;</span>
+            </a>
+            <p class="join-note">
+              Hong Kong-based only
+              <span>&middot;</span>
+              Curated entry
+              <span>&middot;</span>
+              No cost to join
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer>
+    <span class="footer-l">Signal HK &copy; 2026</span>
+    <span class="footer-r">Hong Kong, China</span>
+  </footer>
+
+</body>
+</html>
